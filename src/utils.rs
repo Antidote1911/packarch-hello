@@ -103,7 +103,6 @@ pub fn get_translation_msgid(objname: &str) -> &'static str {
         "autostartlabel" => "launch-start-label",
         "development" => "button-development-label",
         "software" => "button-software-label",
-        "donate" => "button-donate-label",
         "forum" => "button-forum-label",
         "firstcategory" => "section-docs",
         "secondcategory" => "section-support",
@@ -187,15 +186,6 @@ pub fn is_intel_amd_gpu(vendor_id: &str, class_id: &str) -> bool {
 pub fn has_intel_or_amd_gpu() -> bool {
     let data_obj = chwd::data::Data::new(false);
     data_obj.pci_devices.iter().any(|device| is_intel_amd_gpu(&device.vendor_id, &device.class_id))
-}
-
-/// Returns true if the kwin is currently running.
-pub fn is_kwin_wayland() -> bool {
-    Exec::cmd("pgrep")
-        .args(["kwin_wayland"])
-        .stdout(subprocess::Redirection::Null)
-        .join()
-        .is_ok_and(|status: subprocess::ExitStatus| status.success())
 }
 
 #[cfg(test)]

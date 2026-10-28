@@ -234,18 +234,6 @@ fn create_troubleshooting_section() -> gtk::Box {
 
     button_box_s.pack_start(&reinstall_btn, true, true, 2);
 
-    if utils::is_kwin_wayland() {
-        let kwinw_debug_btn = create_gtk_button!("show-kwinw-debug-title");
-        kwinw_debug_btn.connect_clicked(move |_| {
-            // Spawn child process in separate thread.
-            std::thread::spawn(move || {
-                // do we even need to start that in separate thread. should be fine without
-                actions::launch_kwin_debug_window();
-            });
-        });
-        button_box_t.pack_end(&kwinw_debug_btn, true, true, 2);
-    }
-
     button_box_f.set_halign(gtk::Align::Fill);
     button_box_s.set_halign(gtk::Align::Fill);
     button_box_t.set_halign(gtk::Align::Fill);

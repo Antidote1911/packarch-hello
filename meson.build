@@ -1,5 +1,5 @@
-project('cachyos-hello', 'rust',
-        version: '0.26.0',
+project('packarch-hello', 'rust',
+        version: '1.0.0',
         license: 'GPLv3',
         meson_version: '>=0.56.0',
         default_options: ['buildtype=debugoptimized',
@@ -10,7 +10,7 @@ project('cachyos-hello', 'rust',
 i18n = import('i18n')
 gnome = import('gnome')
 
-base_id = 'org.cachyos.hello'
+base_id = 'org.packarch.hello'
 
 dependency('glib-2.0', version: '>= 2.66')
 dependency('gio-2.0', version: '>= 2.66')

@@ -76,8 +76,6 @@ pub enum FixAction {
     RankMirrors,
     /// Install `CachyOS` gaming meta-packages
     InstallGaming,
-    /// Show the `KWin` Wayland debug console (if running)
-    ShowKwinDebug,
     /// Install Winboat for Windows applications
     InstallWinboat,
     /// Install VRAM management packages

@@ -21,7 +21,7 @@ mod imp {
     impl ObjectSubclass for Application {
         type Type = super::Application;
 
-        const NAME: &'static str = "CachyOSHello";
+        const NAME: &'static str = "PackarchHello";
     }
 
     impl ObjectImpl for Application {}

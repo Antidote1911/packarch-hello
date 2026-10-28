@@ -1,0 +1,11 @@
+[Desktop Entry]
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;System;
+StartupNotify=false
+Name=Packarch Hello
+Exec=/usr/bin/packarch-hello
+Icon=org.packarch.hello
+StartupWMClass=org.packarch.hello
+Comment=A tool providing access to documentation and support for new Packarch users.
+Comment[fr]=Outil d'accès à la documentation et au support des nouveaux utilisateurs de Packarch.

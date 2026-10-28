@@ -2,7 +2,7 @@ use crate::networkmanager::{self, DnsMods, NmDnsOverTls};
 use crate::systemd_units::Scope;
 use crate::tweak::{self, TweakName};
 use crate::ui::{Action, DialogMessage, MessageType, RunCmdCallback};
-use crate::{PacmanWrapper, dns, fl, kwin_dbus, systemd_units, utils};
+use crate::{PacmanWrapper, dns, fl, systemd_units, utils};
 
 use std::path::Path;
 use std::time::Duration;
@@ -129,12 +129,6 @@ pub fn get_dot_for_connection(conn_name: &str) -> bool {
 fn get_user_groups() -> Vec<String> {
     let groups = utils::cmd_output("/sbin/groups", &[]);
     groups.split('\n').filter(|x| !x.is_empty()).map(String::from).collect::<Vec<_>>()
-}
-
-pub fn launch_kwin_debug_window() {
-    if let Err(kwin_err) = kwin_dbus::launch_kwin_debug_window() {
-        error!("Failed to launch kwin debug window: {kwin_err}");
-    }
 }
 
 pub fn change_dns_server(
@@ -456,13 +450,9 @@ pub fn install_gaming(callback: RunCmdCallback, dialog_tx: Sender<DialogMessage>
 }
 
 pub fn install_vram_management(callback: RunCmdCallback, dialog_tx: Sender<DialogMessage>) {
-    let mut packages: Vec<&str> = vec!["dmemcg-booster"];
-    if utils::is_kwin_wayland() {
-        packages.push("plasma-foreground-booster");
-    }
     install_needed_packages(
         callback,
-        &packages,
+        &["dmemcg-booster"],
         fl!("vram-management-package-installed"),
         Action::InstallVramManagement,
         dialog_tx,

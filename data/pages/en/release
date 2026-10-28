@@ -1,0 +1,14 @@
+<big>Release info</big>
+
+Packarch follows the rolling release model of Arch Linux and CachyOS: there is no big upgrade to wait for, the system is updated continuously.
+
+Update it regularly with the System update button (Apps/Tweaks) or, in a terminal:
+
+    sudo pacman -Syu
+
+The changes of Packarch are on GitHub:
+
+    - <a href="https://github.com/Antidote1911/CachyOS-Packarch/commits">ISO and installer</a>
+    - <a href="https://github.com/Antidote1911/myrepo-pkgs/commits">packages of the [packarch] repository</a>
+
+Those of the base system are published on the <a href="https://cachyos.org/blog/">CachyOS blog</a>.

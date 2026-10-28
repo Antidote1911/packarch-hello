@@ -10,7 +10,6 @@ mod embed_data;
 mod gresource;
 mod gui;
 mod installer;
-mod kwin_dbus;
 mod localization;
 mod logger;
 mod networkmanager;
@@ -39,7 +38,7 @@ use serde_json::json;
 use tracing::{debug, error};
 use unic_langid::LanguageIdentifier;
 
-const RESPREFIX: &str = "/org/cachyos/hello";
+const RESPREFIX: &str = "/org/packarch/hello";
 
 static G_SAVE_JSON: LazyLock<Mutex<serde_json::Value>> = LazyLock::new(|| {
     let preferences = get_preferences();
@@ -106,8 +105,8 @@ fn main() {
         gresource::init().expect("Could not load gresource file.");
 
         // Set program name.
-        glib::set_program_name("org.cachyos.hello".into());
-        glib::set_application_name("org.cachyos.hello");
+        glib::set_program_name("org.packarch.hello".into());
+        glib::set_application_name("org.packarch.hello");
 
         let application = gtk::Application::new(
             Some(APP_ID),       // Application id
@@ -149,7 +148,6 @@ fn build_ui(application: &gtk::Application) {
             "on_action_clicked" => Box::new(on_action_clicked),
             "on_btn_clicked" => Box::new(on_btn_clicked),
             "on_link_clicked" => Box::new(on_link_clicked),
-            "on_link1_clicked" => Box::new(on_link1_clicked),
             "on_delete_window" => Box::new(on_delete_window),
             _ => Box::new(|_| None),
         }
@@ -252,18 +250,6 @@ fn on_link_clicked(param: &[glib::Value]) -> Option<glib::Value> {
     G_HELLO_WINDOW.get().unwrap().open_uri(uri);
 
     None
-}
-
-fn on_link1_clicked(param: &[glib::Value]) -> Option<glib::Value> {
-    let widget = param[0].get::<gtk::Widget>().unwrap();
-    let name = widget.widget_name();
-
-    let preferences = G_HELLO_WINDOW.get().unwrap().get_preferences("urls");
-
-    let uri = preferences[name.as_str()].as_str().unwrap();
-    G_HELLO_WINDOW.get().unwrap().open_uri(uri);
-
-    Some(false.to_value())
 }
 
 fn on_delete_window(_param: &[glib::Value]) -> Option<glib::Value> {

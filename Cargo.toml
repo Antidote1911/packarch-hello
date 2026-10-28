@@ -1,12 +1,15 @@
 [package]
-name = "cachyos-hello"
-version = "0.28.1"
-authors = ["Vladislav Nepogodin <nepogodin.vlad@gmail.com>"]
+name = "packarch-hello"
+version = "1.0.0"
+authors = [
+    "Vladislav Nepogodin <nepogodin.vlad@gmail.com>",
+    "Fabrice Corraire <antidote1911@gmail.com>",
+]
 license = "GPLv3"
 edition = "2024"
-description = "CachyOS Welcome Screen"
-repository = "https://github.com/cachyos/cachyos-welcome"
-keywords = ["cachyos", "linux", "gtk", "welcome"]
+description = "Packarch Welcome Screen (fork of CachyOS Hello)"
+repository = "https://github.com/Antidote1911/packarch-hello"
+keywords = ["packarch", "cachyos", "linux", "gtk", "welcome"]
 categories = ["gui"]
 
 [dependencies]
@@ -53,8 +56,6 @@ hickory-resolver = { version = "0.26.1", default-features = false, features = [
 
 [build-dependencies]
 anyhow = "1"
-reqwest = { version = "0.13", features = ["blocking"] }
-quick-xml = "0.41"
 
 [profile.release]
 strip = "symbols"

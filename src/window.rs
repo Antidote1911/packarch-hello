@@ -52,7 +52,7 @@ impl HelloWindow {
         );
 
         // Init window
-        let builder = Builder::from_resource(&format!("{RESPREFIX}/ui/cachyos-hello.glade"));
+        let builder = Builder::from_resource(&format!("{RESPREFIX}/ui/packarch-hello.glade"));
 
         let main_window: Window =
             builder.object("window").expect("Could not get the object window");
@@ -60,7 +60,7 @@ impl HelloWindow {
 
         // Subtitle of headerbar
         let header: HeaderBar = builder.object("headerbar").expect("Could not get the headerbar");
-        header.set_subtitle(Some("CachyOS rolling"));
+        header.set_subtitle(Some(&crate::fl!("headerbar-subtitle")));
 
         // Load images
         let logo_path = format!("{}/{APP_ID}.svg", preferences["logo_path"].as_str().unwrap());
@@ -69,32 +69,10 @@ impl HelloWindow {
             main_window.set_icon(Some(&logo));
         }
 
-        let social_box: gtk::Box = builder.object("social").unwrap();
-        for btn in social_box.children() {
-            let name = btn.widget_name();
-            let image: gtk::Image = builder.object(name.as_str()).unwrap();
-            image.set_pixel_size(32);
-            image.set_from_icon_name(Some(name.as_str()), gtk::IconSize::Invalid);
-
-            // Enable keyboard activation (Enter/Space) for social EventBoxes
-            btn.connect_key_press_event(|widget, event| {
-                let keyval = event.keyval();
-                if keyval == gdk::keys::constants::Return
-                    || keyval == gdk::keys::constants::KP_Enter
-                    || keyval == gdk::keys::constants::space
-                {
-                    let name = widget.widget_name();
-                    let hello_window = crate::G_HELLO_WINDOW.get().unwrap();
-                    let preferences = hello_window.get_preferences("urls");
-                    if let Some(uri) = preferences[name.as_str()].as_str() {
-                        hello_window.open_uri(uri);
-                    }
-                    glib::Propagation::Stop
-                } else {
-                    glib::Propagation::Proceed
-                }
-            });
-        }
+        // Logo of the home page
+        let distriblogo: gtk::Image = builder.object("distriblogo").unwrap();
+        distriblogo.set_pixel_size(96);
+        distriblogo.set_from_icon_name(Some("packarch-logo"), gtk::IconSize::Invalid);
 
         let homepage_grid: gtk::Grid = builder.object("homepage").unwrap();
         for widget in homepage_grid.children() {
@@ -121,17 +99,9 @@ impl HelloWindow {
         let file_pages_path =
             if locale_pages_exist { format!("pages/{best_locale}") } else { "pages/en".to_owned() };
 
-        let mut file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
+        let file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
             .filter(|pkg| pkg.starts_with(&file_pages_path))
             .collect();
-
-        // Release page is only generated in English, always include it
-        if file_pages_path != "pages/en"
-            && let Some(en_release) =
-                crate::embed_data::HelloData::iter().find(|pkg| pkg.as_ref() == "pages/en/release")
-        {
-            file_pages.push(en_release);
-        }
 
         for file_path in file_pages {
             // let page_file = HelloData::get(&file_path).unwrap();
@@ -260,13 +230,14 @@ impl HelloWindow {
         .version(VERSION)
         .logo(&logo)
         .authors(vec![
-            "Vladislav Nepogodin".to_owned(),
+            "Vladislav Nepogodin (CachyOS Hello)".to_owned(),
+            "Fabrice Corraire (Packarch)".to_owned(),
         ])
         // Translators: Replace "translator-credits" with your names. Put a comma between.
         .translator_credits("translator-credits")
-        .copyright("2021-2026 CachyOS team")
+        .copyright("2021-2026 CachyOS team, 2026 Fabrice Corraire")
         .license_type(gtk::License::Gpl30)
-        .website("https://github.com/cachyos/cachyos-welcome")
+        .website("https://github.com/Antidote1911/packarch-hello")
         .website_label("GitHub")
         .build();
 
@@ -289,7 +260,6 @@ impl HelloWindow {
                 "autostartlabel",
                 "development",
                 "software",
-                "donate",
                 "firstcategory",
                 "forum",
                 "install",
@@ -303,7 +273,7 @@ impl HelloWindow {
                 "welcometitle",
                 "wiki",
             ]),
-            ("tooltip_text", vec!["about", "development", "software", "donate", "forum", "wiki"]),
+            ("tooltip_text", vec!["about", "development", "software", "forum", "wiki"]),
         ]);
 
         for (method, objnames) in &elts {
@@ -330,17 +300,9 @@ impl HelloWindow {
         let file_pages_path =
             if locale_pages_exist { format!("pages/{use_locale}") } else { "pages/en".to_owned() };
 
-        let mut file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
+        let file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
             .filter(|pkg| pkg.starts_with(&file_pages_path))
             .collect();
-
-        // Release page is only generated in English, always include it
-        if file_pages_path != "pages/en"
-            && let Some(en_release) =
-                crate::embed_data::HelloData::iter().find(|pkg| pkg.as_ref() == "pages/en/release")
-        {
-            file_pages.push(en_release);
-        }
 
         for file_path in file_pages {
             let page_file_name =

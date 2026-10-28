@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/packarch/hello">
+    <file compressed="true" preprocess="xml-stripblanks">ui/packarch-hello.glade</file>
+    <file compressed="true">ui/style.css</file>
+    <file compressed="true">data/img/external-link-symbolic.svg</file>
+    <file compressed="true">data/img/packarch-logo.svg</file>
+  </gresource>
+</gresources>
