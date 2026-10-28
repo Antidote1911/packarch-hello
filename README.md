@@ -10,11 +10,12 @@ CachyOS team, under the same license (GPL-3.0-or-later).
 
 ## Changes from CachyOS Hello
 
-- Packarch name, logo, texts and links (documentation, issues on GitHub, development).
-- No forum, donation, Discord or Reddit links: Packarch has none.
+- Packarch name, logo and texts.
+- French only, without language selector (and without settings file: the language was the only
+  saved setting).
+- Home page: only the links to the issues on GitHub and to the CachyOS packages. No read me,
+  release info, get involved, wiki, forum, development, donation, Discord or Reddit buttons.
 - No KDE specific code: KWin debug console, `plasma-foreground-booster`.
-- English and French only.
-- The release page is a static page, not downloaded from the CachyOS blog at build time.
 - The installer only checks the Internet connection: no check of the ISO version against
   cachyos.org, nor of the edition (Packarch has only the desktop edition).
 

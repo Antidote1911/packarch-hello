@@ -1,10 +1,8 @@
 use crate::ui::RunCmdCallback;
 
-use std::fs::File;
 use std::path::Path;
-use std::{fs, slice, str};
+use std::fs;
 
-use anyhow::Context;
 use gtk::prelude::*;
 
 use subprocess::{Exec, ExitStatus, Redirection};
@@ -24,38 +22,6 @@ pub fn fix_path(path: &str) -> String {
         return String::from(path);
     }
     path.replace('~', glib::home_dir().as_path().to_str().unwrap())
-}
-
-#[inline]
-pub fn read_json(path: &str) -> anyhow::Result<serde_json::Value> {
-    let buf = fix_path(path);
-    let data = fs::read_to_string(buf).context("Unable to read file")?;
-    serde_json::from_str(&data).context("Unable to parse")
-}
-
-#[inline]
-pub fn write_json(path: &str, content: &serde_json::Value) -> anyhow::Result<()> {
-    let output = File::create(fix_path(path)).context("Unable to open file for writing")?;
-    serde_json::to_writer(output, content).context("Unable to write json to file")?;
-    Ok(())
-}
-
-#[inline]
-pub const fn const_min(v1: usize, v2: usize) -> usize {
-    if v1 <= v2 { v1 } else { v2 }
-}
-
-#[inline]
-pub const fn string_substr(src_str: &str, pos: usize, n: usize) -> Result<&str, str::Utf8Error> {
-    let rlen = const_min(n, src_str.len() - pos);
-
-    unsafe {
-        // First, we build a &[u8]...
-        let slice = slice::from_raw_parts(src_str.as_ptr().add(pos), rlen);
-
-        // ... and then convert that slice into a string slice
-        str::from_utf8(slice)
-    }
 }
 
 #[inline]
@@ -101,20 +67,13 @@ pub fn get_window_from_widget(passed_widget: &impl IsA<gtk::Widget>) -> Option<g
 pub fn get_translation_msgid(objname: &str) -> &'static str {
     match objname {
         "autostartlabel" => "launch-start-label",
-        "development" => "button-development-label",
         "software" => "button-software-label",
         "forum" => "button-forum-label",
-        "firstcategory" => "section-docs",
         "secondcategory" => "section-support",
-        "thirdcategory" => "section-project",
         "install" => "button-installer-label",
         "installlabel" => "section-installer",
-        "involved" => "button-involved-label",
-        "readme" => "button-readme-label",
-        "release" => "button-release-info-label",
         "welcomelabel" => "welcome-body",
         "welcometitle" => "welcome-title",
-        "wiki" => "button-wiki-label",
         _ => panic!("unknown objname '{objname}'!"),
     }
 }
@@ -198,20 +157,6 @@ mod test {
         assert!(!check_regular_file("/etc"));
     }
 
-    #[test]
-    fn check_substr() {
-        let text = "The test string is here";
-        assert_eq!(string_substr(text, 0, 3).unwrap(), "The");
-        assert_eq!(string_substr(text, 4, 4).unwrap(), "test");
-        assert_eq!(string_substr(text, 19, 4).unwrap(), "here");
-    }
-
-    #[test]
-    fn check_min() {
-        assert_eq!(const_min(1, 2), 1);
-        assert_eq!(const_min(2, 2), 2);
-        assert_eq!(const_min(3, 2), 2);
-    }
 
     #[test]
     fn detects_supported_gpu_vendors_and_classes() {

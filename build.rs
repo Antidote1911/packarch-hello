@@ -33,19 +33,17 @@ fn gen_config() -> anyhow::Result<()> {
 
     let version = env::var("CARGO_PKG_VERSION")?;
 
-    let (profile, version_suffix, app_id) = if env::var("PROFILE")? == "debug" {
-        let profile = "Devel";
+    let (version_suffix, app_id) = if env::var("PROFILE")? == "debug" {
         let vcs_tag = get_vcs_tag()?;
         let version_suffix =
             if vcs_tag.is_empty() { "-devel".to_string() } else { format!("-{vcs_tag}") };
-        (profile.to_owned(), version_suffix, format!("{base_id}.{profile}"))
+        (version_suffix, format!("{base_id}.Devel"))
     } else {
-        (String::new(), String::new(), base_id.to_owned())
+        (String::new(), base_id.to_owned())
     };
 
     let final_config = fs::read_to_string("src/config.rs.in")?
         .replace("@APP_ID@", &format!("\"{app_id}\""))
-        .replace("@PROFILE@", &format!("\"{profile}\""))
         .replace("@VERSION@", &format!("\"{version}{version_suffix}\""));
 
     let mut file = fs::File::create("src/config.rs")?;

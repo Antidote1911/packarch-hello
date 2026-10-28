@@ -1,16 +1,11 @@
 {
-    "default_locale": "en",
     "autostart_path": "~/.config/autostart/packarch-hello.desktop",
-    "data_path": "/usr/share/packarch-hello/data/",
     "desktop_path": "/usr/share/applications/packarch-hello.desktop",
     "installer_path": "/usr/bin/calamares",
     "live_path": "/run/archiso",
     "logo_path": "/usr/share/icons/hicolor/scalable/apps/",
-    "save_path": "~/.config/packarch-hello.json",
     "urls": {
-        "development": "https://github.com/Antidote1911",
         "software": "https://packages.cachyos.org",
-        "forum": "https://github.com/Antidote1911/CachyOS-Packarch/issues",
-        "wiki": "https://wiki.cachyos.org"
+        "forum": "https://github.com/Antidote1911/CachyOS-Packarch/issues"
     }
 }

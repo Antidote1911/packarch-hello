@@ -37,7 +37,6 @@ along with packarch-hello.  If not, see <http://www.gnu.org/licenses/>.
     <property name="default-width">800</property>
     <property name="default-height">500</property>
     <property name="has-resize-grip">True</property>
-    <signal name="delete-event" handler="on_delete_window" swapped="no"/>
     <child>
       <object class="GtkStack" id="stack">
         <property name="visible">True</property>
@@ -102,20 +101,6 @@ Packarch is based on CachyOS, with its own desktops, themes and packages. We hop
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="firstcategory">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">DOCUMENTATION</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="secondcategory">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -127,79 +112,6 @@ Packarch is based on CachyOS, with its own desktops, themes and packages. We hop
               <packing>
                 <property name="left-attach">1</property>
                 <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="thirdcategory">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="label" translatable="yes">PROJECT</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="readme">
-                <property name="label" translatable="yes">Read me</property>
-                <property name="name">readme</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="release">
-                <property name="label" translatable="yes">Release info</property>
-                <property name="name">release</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="wiki">
-                <property name="label" translatable="yes">Wiki</property>
-                <property name="name">wiki</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Web resource</property>
-                <property name="image-position">right</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_link_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="involved">
-                <property name="label" translatable="yes">Get involved</property>
-                <property name="name">involved</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_btn_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">5</property>
               </packing>
             </child>
             <child>
@@ -237,46 +149,12 @@ Packarch is based on CachyOS, with its own desktops, themes and packages. We hop
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="development">
-                <property name="label" translatable="yes">Development</property>
-                <property name="name">development</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Web resource</property>
-                <property name="image-position">right</property>
-                <property name="always-show-image">True</property>
-                <signal name="clicked" handler="on_link_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">6</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="valign">end</property>
                 <property name="vexpand">True</property>
                 <property name="spacing">10</property>
-                <child>
-                  <object class="GtkComboBoxText" id="languages">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="wrap-width">3</property>
-                    <items>
-                      <item id="en">English</item>
-                      <item id="fr">Français</item>
-                    </items>
-                    <signal name="changed" handler="on_languages_changed" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
                 <child>
                   <object class="GtkLabel" id="autostartlabel">
                     <property name="visible">True</property>

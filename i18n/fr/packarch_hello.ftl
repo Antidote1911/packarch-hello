@@ -80,20 +80,13 @@ install-vram-management-tooltip = Prioriser la mémoire vidéo (VRAM) pour l'app
 # Page principale (boutons)
 button-about-tooltip = À propos
 button-web-resource-tooltip = Ressource en ligne
-button-development-label = Développement
 button-software-label = Logiciel
 button-forum-label = Signaler un problème
 button-installer-label = Lancer l'installateur
-button-involved-label = S'impliquer
-button-readme-label = Lisez-moi
-button-release-info-label = Informations sur la version
-button-wiki-label = Wiki
 
 # Page principale (sections)
-section-docs = DOCUMENTATION
 section-installer = INSTALLATION
 section-support = SUPPORT
-section-project = PROJET
 
 # Page principale (programme d'installation)
 calamares-install-type = Type d'installion Calamares
@@ -107,7 +100,7 @@ welcome-title = Bienvenue sur Packarch !
 welcome-body =
     Merci de rejoindre notre communauté !
 
-    Packarch est basé sur CachyOS, avec ses propres bureaux, thèmes et paquets. Nous espérons que vous aimerez l'utiliser autant que nous aimons le construire. Les liens ci-dessous vous aideront à prendre en main votre nouveau système d'exploitation. Profitez bien de l'expérience, et n'hésitez pas à nous faire part de vos retours.
+    Packarch est basé sur CachyOS, avec ses propres bureaux, thèmes et paquets. Nous espérons que vous aimerez l'utiliser autant que nous aimons le construire. Les boutons ci-dessous donnent accès aux mises à jour, aux réglages et au dépannage du système. Profitez bien de l'expérience, et n'hésitez pas à nous faire part de vos retours.
 
 # Traductions absentes de CachyOS Hello
 troubleshooting-label = Dépannage

@@ -2,7 +2,6 @@ use rust_embed::{EmbeddedFile, RustEmbed};
 
 #[derive(RustEmbed)]
 #[folder = "data/"]
-#[exclude = "pages/copy-release-trans.py"]
 #[exclude = "img/*"]
 pub struct HelloData;
 

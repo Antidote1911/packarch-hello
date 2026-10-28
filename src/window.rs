@@ -13,8 +13,7 @@ use gtk::prelude::*;
 use gtk::gdk_pixbuf::Pixbuf;
 use gtk::glib::GString;
 use gtk::{Builder, HeaderBar, Window, gdk, glib};
-use tracing::{debug, error};
-use unic_langid::LanguageIdentifier;
+use tracing::error;
 
 #[derive(Clone, Debug)]
 pub struct HelloWindow {
@@ -31,12 +30,7 @@ unsafe impl Sync for HelloWindow {}
 
 impl HelloWindow {
     /// Create a new `HelloWindow`.
-    #[expect(clippy::too_many_lines, reason = "GTK window initialization")]
-    pub fn new(
-        application: &gtk::Application,
-        preferences: serde_json::Value,
-        best_locale: &str,
-    ) -> Self {
+    pub fn new(application: &gtk::Application, preferences: serde_json::Value) -> Self {
         // Register bundled icons with the icon theme
         if let Some(icon_theme) = gtk::IconTheme::default() {
             icon_theme.add_resource_path(&format!("{RESPREFIX}/data/img"));
@@ -93,59 +87,6 @@ impl HelloWindow {
             btn.set_image(Some(&image));
         }
 
-        // Create pages
-        let locale_pages_exist = crate::embed_data::HelloData::iter()
-            .any(|x| x.starts_with(&format!("pages/{best_locale}")));
-        let file_pages_path =
-            if locale_pages_exist { format!("pages/{best_locale}") } else { "pages/en".to_owned() };
-
-        let file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
-            .filter(|pkg| pkg.starts_with(&file_pages_path))
-            .collect();
-
-        for file_path in file_pages {
-            // let page_file = HelloData::get(&file_path).unwrap();
-            // let page = std::str::from_utf8(page_file.data.as_ref());
-            let scrolled_window =
-                gtk::ScrolledWindow::new(gtk::Adjustment::NONE, gtk::Adjustment::NONE);
-
-            let viewport = gtk::Viewport::new(gtk::Adjustment::NONE, gtk::Adjustment::NONE);
-            viewport.set_border_width(10);
-
-            let label = gtk::Label::new(None);
-            label.set_line_wrap(true);
-            let image = gtk::Image::from_icon_name(Some("go-previous"), gtk::IconSize::Button);
-            let back_btn = gtk::Button::new();
-            back_btn.set_image(Some(&image));
-            back_btn.set_widget_name("home");
-
-            back_btn.connect_clicked(glib::clone!(@weak builder => move |button| {
-                let name = button.widget_name();
-                let stack: gtk::Stack = builder.object("stack").unwrap();
-                stack.set_visible_child_name(&format!("{name}page"));
-            }));
-
-            let child_name = format!(
-                "{}page",
-                Path::new(&file_path.as_ref()).file_name().unwrap().to_str().unwrap()
-            );
-
-            let grid = gtk::Grid::new();
-            grid.set_widget_name(&child_name);
-            grid.attach(&back_btn, 0, 1, 1, 1);
-            grid.attach(&label, 1, 2, 1, 1);
-            viewport.add(&grid);
-            scrolled_window.add(&viewport);
-            scrolled_window.show_all();
-
-            let stack: gtk::Stack = builder.object("stack").unwrap();
-            stack.add_named(&scrolled_window, &child_name);
-        }
-
-        // Init translation
-        let languages: gtk::ComboBoxText = builder.object("languages").unwrap();
-        languages.set_active_id(Some(best_locale));
-
         // Set autostart switcher state
         let autostart =
             Path::new(&utils::fix_path(preferences["autostart_path"].as_str().unwrap())).exists();
@@ -183,8 +124,8 @@ impl HelloWindow {
             let install: gtk::Button = builder.object("install").unwrap();
             install.grab_focus();
         } else {
-            let readme: gtk::Button = builder.object("readme").unwrap();
-            readme.grab_focus();
+            let forum: gtk::Button = builder.object("forum").unwrap();
+            forum.grab_focus();
         }
 
         // Briefly dim focused widget on keyboard Tab for navigation feedback
@@ -214,7 +155,7 @@ impl HelloWindow {
 
         // setup pages content
         let hello_window = HelloWindow { window: main_window, builder, preferences };
-        hello_window.switch_locale(best_locale);
+        hello_window.set_texts();
         hello_window
     }
 
@@ -245,35 +186,20 @@ impl HelloWindow {
         dialog.hide();
     }
 
-    /// Change languages strings of ui and pages.
-    pub fn switch_locale(&self, use_locale: &str) {
-        let localizer = crate::localization::localizer();
-        let req_locale: LanguageIdentifier = use_locale.parse().unwrap();
-
-        if let Err(error) = localizer.select(&[req_locale]) {
-            error!("Error while loading languages for library_fluent {error}");
-        }
-
-        // Run-time locale changing
+    /// Texts of the ui (French only: the fallback language of i18n.toml)
+    pub fn set_texts(&self) {
         let elts: HashMap<&str, Vec<_>> = HashMap::from([
             ("label", vec![
                 "autostartlabel",
-                "development",
-                "software",
-                "firstcategory",
                 "forum",
                 "install",
                 "installlabel",
-                "involved",
-                "readme",
-                "release",
                 "secondcategory",
-                "thirdcategory",
+                "software",
                 "welcomelabel",
                 "welcometitle",
-                "wiki",
             ]),
-            ("tooltip_text", vec!["about", "development", "software", "forum", "wiki"]),
+            ("tooltip_text", vec!["about", "software", "forum"]),
         ]);
 
         for (method, objnames) in &elts {
@@ -292,36 +218,6 @@ impl HelloWindow {
                     item.set_property(method, &translated_text);
                 }
             }
-        }
-
-        // Change content of pages
-        let locale_pages_exist = crate::embed_data::HelloData::iter()
-            .any(|x| x.starts_with(&format!("pages/{use_locale}")));
-        let file_pages_path =
-            if locale_pages_exist { format!("pages/{use_locale}") } else { "pages/en".to_owned() };
-
-        let file_pages: Vec<std::borrow::Cow<'_, str>> = crate::embed_data::HelloData::iter()
-            .filter(|pkg| pkg.starts_with(&file_pages_path))
-            .collect();
-
-        for file_path in file_pages {
-            let page_file_name =
-                Path::new(file_path.as_ref()).file_name().unwrap().to_str().unwrap();
-
-            let stack: &gtk::Stack = &self.builder.object("stack").unwrap();
-            let child = stack.child_by_name(&format!("{page_file_name}page"));
-            if child.is_none() {
-                debug!("child not found");
-                continue;
-            }
-            let first_child = &child.unwrap().downcast::<gtk::Container>().unwrap().children();
-            let second_child =
-                &first_child[0].clone().downcast::<gtk::Container>().unwrap().children();
-            let third_child =
-                &second_child[0].clone().downcast::<gtk::Container>().unwrap().children();
-
-            let label = &third_child[0].clone().downcast::<gtk::Label>().unwrap();
-            label.set_markup(get_page(file_path.as_ref()).as_str());
         }
 
         pages::i18n::update_translations(&self.builder);
@@ -356,11 +252,4 @@ impl HelloWindow {
     pub fn get_preferences(&self, entry: &str) -> &serde_json::Value {
         &self.preferences[entry]
     }
-}
-
-#[inline]
-fn get_page(file_path: &str) -> String {
-    let page_file = crate::embed_data::get(file_path).unwrap();
-    let page = std::str::from_utf8(page_file.data.as_ref());
-    page.unwrap().to_owned()
 }
