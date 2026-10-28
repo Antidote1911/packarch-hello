@@ -120,7 +120,7 @@ pub struct LaunchArgs {
 
 #[derive(Subcommand, Debug)]
 pub enum AppToLaunch {
-    /// Launch the Packarch Package Installer
+    /// Launch Packarch Installer
     PackageInstaller,
     /// Launch the `CachyOS` Kernel Manager
     KernelManager,

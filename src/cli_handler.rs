@@ -328,7 +328,7 @@ pub fn handle_dns_command(action: DnsAction) -> Result<()> {
 
 pub fn handle_launch_command(app: AppToLaunch) -> Result<()> {
     let (app_name, bin_name) = match app {
-        AppToLaunch::PackageInstaller => ("Packarch Package Installer", "packarch-pi"),
+        AppToLaunch::PackageInstaller => ("Packarch Installer", "packarch-pi"),
         AppToLaunch::KernelManager => ("CachyOS Kernel Manager", "cachyos-kernel-manager"),
     };
 
