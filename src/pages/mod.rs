@@ -158,10 +158,10 @@ fn create_apps_section() -> Option<gtk::Box> {
     label.set_text(&fl!("applications"));
 
     // Check first btn.
-    if utils::is_cachyos_pi_installed() {
-        let cachyos_pi = gtk::Button::with_label("CachyOS PackageInstaller");
-        cachyos_pi.connect_clicked(on_appbtn_clicked);
-        box_collection.pack_start(&cachyos_pi, true, true, 2);
+    if utils::is_packarch_pi_installed() {
+        let packarch_pi = gtk::Button::with_label("Installateur de paquets Packarch");
+        packarch_pi.connect_clicked(on_appbtn_clicked);
+        box_collection.pack_start(&packarch_pi, true, true, 2);
     }
     // Check second btn.
     if Path::new("/sbin/cachyos-kernel-manager").exists() {
@@ -321,14 +321,14 @@ pub fn create_tweaks_page(builder: &Builder) {
 
 pub fn create_appbrowser_page(builder: &Builder) {
     let install: gtk::Button = builder.object("appBrowser").unwrap();
-    install.set_visible(utils::is_cachyos_pi_installed());
+    install.set_visible(utils::is_packarch_pi_installed());
     install.set_label(&fl!("appbrowser-label"));
     install.connect_clicked(move |_| {
         // Spawn child process in separate thread.
         std::thread::spawn(move || {
             // Get executable path.
             // TODO(vnepogodin): prompt to install if it doesn't exist
-            let exec_path = utils::get_cachyos_pi_path().expect("cachyos-pi not found");
+            let exec_path = utils::get_packarch_pi_path().expect("packarch-pi not found");
             let exit_status = utils::spawn_detached(&exec_path).expect("Failed to spawn process");
             debug!("Exit status successfully? = {:?}", exit_status.success());
         });
@@ -378,8 +378,8 @@ fn on_clear_pkgcache_btn_clicked(_: &gtk::Button) {
 fn on_appbtn_clicked(button: &gtk::Button) {
     // Get button label.
     let name = button.label().unwrap();
-    let binname = if name == "CachyOS PackageInstaller" {
-        "cachyos-pi"
+    let binname = if name == "Installateur de paquets Packarch" {
+        "packarch-pi"
     } else if name == "CachyOS Kernel Manager" {
         "cachyos-kernel-manager"
     } else {
