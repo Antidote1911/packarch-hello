@@ -38,7 +38,7 @@ which = { version = "8.0", features = ["tracing"] }
 anyhow = { version = "1", default-features = false, features = ["std"] }
 tokio = { version = "1.53", features = ["macros", "sync", "rt-multi-thread"] }
 zbus = { version = "5", features = ["tokio"], default-features = false }
-zbus_systemd = { version = "0.26100.0", features = ["systemd1"], default-features = false }
+zbus_systemd = { version = "0.26200.0", features = ["systemd1"], default-features = false }
 clap = { features = ["derive"], version = "4" }
 async-channel = "2"
 colored = "3"
