@@ -6,6 +6,6 @@
     "logo_path": "/usr/share/icons/hicolor/scalable/apps/",
     "urls": {
         "software": "https://packages.cachyos.org",
-        "forum": "https://github.com/Antidote1911/CachyOS-Packarch/issues"
+        "forum": "https://github.com/packarch/CachyOS-Packarch/issues"
     }
 }

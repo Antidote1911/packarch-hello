@@ -8,7 +8,7 @@ authors = [
 license = "GPLv3"
 edition = "2024"
 description = "Packarch Welcome Screen (fork of CachyOS Hello)"
-repository = "https://github.com/Antidote1911/packarch-hello"
+repository = "https://github.com/packarch/packarch-hello"
 keywords = ["packarch", "cachyos", "linux", "gtk", "welcome"]
 categories = ["gui"]
 

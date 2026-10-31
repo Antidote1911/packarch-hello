@@ -178,7 +178,7 @@ impl HelloWindow {
         .translator_credits("translator-credits")
         .copyright("2021-2026 CachyOS team, 2026 Fabrice Corraire")
         .license_type(gtk::License::Gpl30)
-        .website("https://github.com/Antidote1911/packarch-hello")
+        .website("https://github.com/packarch/packarch-hello")
         .website_label("GitHub")
         .build();
 

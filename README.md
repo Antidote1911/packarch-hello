@@ -3,7 +3,7 @@
   <p><strong>Welcome screen for Packarch, written in Rust</strong></p>
 </div>
 
-Packarch Hello is the welcome screen of [Packarch](https://github.com/Antidote1911/CachyOS-Packarch),
+Packarch Hello is the welcome screen of [Packarch](https://github.com/packarch/CachyOS-Packarch),
 a distribution based on CachyOS. It is a fork of
 [CachyOS Hello](https://github.com/CachyOS/cachyos-welcome) 0.28.1, by Vladislav Nepogodin and the
 CachyOS team, under the same license (GPL-3.0-or-later).
